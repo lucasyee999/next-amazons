@@ -1,8 +1,8 @@
-import React from 'react';
-import { useRouter } from 'next/router';
-import data from '../../utils/data';
-import Layout from '../../components/Layout';
-import NextLink from 'next/link';
+import React from "react";
+import { useRouter } from "next/router";
+import data from "../../utils/data";
+import Layout from "../../components/Layout";
+import NextLink from "next/link";
 import {
   Link,
   Grid,
@@ -11,9 +11,9 @@ import {
   Typography,
   Card,
   Button,
-} from '@material-ui/core';
-import useStyles from '../../utils/styles';
-import Image from 'next/image';
+} from "@material-ui/core";
+import useStyles from "../../utils/styles";
+import Image from "next/image";
 
 export default function ProductScreen() {
   const classes = useStyles();
@@ -45,7 +45,9 @@ export default function ProductScreen() {
         <Grid item md={3} xs={12}>
           <List>
             <ListItem>
-              <Typography component="h1">{product.name}</Typography>
+              <Typography component="h1" variant="h1">
+                {product.name}
+              </Typography>
             </ListItem>
             <ListItem>
               <Typography>Category: {product.category}</Typography>
@@ -83,7 +85,7 @@ export default function ProductScreen() {
                   </Grid>
                   <Grid item xs={6}>
                     <Typography>
-                      {product.countInStock > 0 ? 'In Stock' : 'Unavailable'}
+                      {product.countInStock > 0 ? "In Stock" : "Unavailable"}
                     </Typography>
                   </Grid>
                 </Grid>
