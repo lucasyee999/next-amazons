@@ -1,6 +1,6 @@
-import React from "react";
-import Head from "next/head";
-import NextLink from "next/link";
+import React, { useContext, useEffect, useState } from 'react';
+import Head from 'next/head';
+import NextLink from 'next/link';
 import {
   AppBar,
   Toolbar,
@@ -10,38 +10,54 @@ import {
   createTheme,
   ThemeProvider,
   CssBaseline,
-} from "@material-ui/core";
-import useStyles from "../utils/styles";
+  Switch,
+} from '@material-ui/core';
+import useStyles from '../utils/styles';
+import { Store } from '../utils/Store';
+import Cookies from 'js-cookie';
 
 export default function Layout({ title, description, children }) {
+  const { state, dispatch } = useContext(Store);
+  const { darkMode } = state;
   const theme = createTheme({
     typography: {
       h1: {
-        fontSize: "1.6rem",
+        fontSize: '1.6rem',
         fontWeight: 400,
-        margin: "1rem 0",
+        margin: '1rem 0',
       },
       h2: {
-        fontSize: "1.4rem",
+        fontSize: '1.4rem',
         fontWeight: 400,
-        margin: "1rem 0",
+        margin: '1rem 0',
       },
     },
     palette: {
-      type: "light",
+      type: darkMode ? 'dark' : 'light',
       primary: {
-        main: "#f0c000",
+        main: '#f0c000',
       },
       secondary: {
-        main: "#208080",
+        main: '#208080',
       },
     },
   });
   const classes = useStyles();
+
+  const [darkModeState, setDarkModeState] = useState(false);
+  useEffect(() => {
+    setDarkModeState(darkMode);
+  }, []);
+  const darkModeChangeHandler = () => {
+    dispatch({ type: darkMode ? 'DARK_MODE_OFF' : 'DARK_MODE_ON' });
+    const newDarkMode = !darkMode;
+    setDarkModeState(newDarkMode);
+    Cookies.set('darkMode', newDarkMode ? 'ON' : 'OFF');
+  };
   return (
     <div>
       <Head>
-        <title>{title ? `${title} - Next Amazons` : "Next Amazons"}</title>
+        <title>{title ? `${title} - Next Amazons` : 'Next Amazons'}</title>
         {description && <meta name="description" content={description}></meta>}
       </Head>
       <ThemeProvider theme={theme}>
@@ -55,6 +71,10 @@ export default function Layout({ title, description, children }) {
             </NextLink>
             <div className={classes.grow}></div>
             <div>
+              <Switch
+                checked={darkModeState}
+                onChange={darkModeChangeHandler}
+              ></Switch>
               <NextLink href="/cart" passHref>
                 <Link>Cart</Link>
               </NextLink>
